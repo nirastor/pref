@@ -1,15 +1,3 @@
-<!--
-♣	&#9827;	&clubs; Карточный знак масти "трефы" с закрашенным фоном.
-♠	&#9824;	&spades; Карточный знак масти "пики" с закрашенным фоном.
-♥	&#9829;	&hearts; Карточный знак масти "червы" с закрашенным фоном.
-♦	&#9830;	&diams;	Карточный знак масти "бубны" с закрашенным фоном.
-
-Существуют два основных размера игральных карт: «покер» и «бридж».
-Размер карт «Покер» - длина: 88,9 мм; ширина: 63,5 мм.
-Размер карт «Бридж» - длина: 88,9 мм; ширина: 57,15 мм
-
--->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,10 +29,16 @@
         <div class="buttons-and-tips-container">
             <div class="buttons-and-tips">
                 <h2 class="buttons-and-tips-header">Действия:</h2>
-                <div class="action" id="deal">Раздать карты</div>
-                <div class="action">Вист</div>
-                <div class="action">Пас</div>
-                <div class="action">Пол-виста</div>
+                <div class="button-container" id="main-game-buttons-container">
+                    <div class="action" id="deal">Раздать карты</div>
+                    <div class="action" id="btn-reset-buy-open-dialog">Сбросить прикуп</div>
+                    <div class="action">Пас</div>
+                    <div class="action">Пол-виста</div>
+                </div>
+                <div class="button-container" id="reset-buy-buttons-container">
+                    <div class="tip">Выберите две карты и нажмите</div>
+                    <div class="action" id="btn-reset-buy-action">Сбросить</div>
+                </div>
             </div>
         </div>
         <div class="cards-contanier">
@@ -61,6 +55,18 @@
                 <div class="card">♣A</div>
                 <div class="card"><span class="red-card-text">♥7</span></div>
                 <div class="card"><span class="red-card-text">♥10</span></div> -->
+
+                <!--
+                ♣	&#9827;	&clubs; Карточный знак масти "трефы" с закрашенным фоном.
+                ♠	&#9824;	&spades; Карточный знак масти "пики" с закрашенным фоном.
+                ♥	&#9829;	&hearts; Карточный знак масти "червы" с закрашенным фоном.
+                ♦	&#9830;	&diams;	Карточный знак масти "бубны" с закрашенным фоном.
+
+                Существуют два основных размера игральных карт: «покер» и «бридж».
+                Размер карт «Покер» - длина: 88,9 мм; ширина: 63,5 мм.
+                Размер карт «Бридж» - длина: 88,9 мм; ширина: 57,15 мм
+                -->
+
             </div>
             <div class="card-area-settings-open-button">*</div>
             <div class="card-area-setting">

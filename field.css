@@ -65,6 +65,19 @@ body {
     align-items: baseline;
 }
 
+.tip {
+    padding-left: 40px;
+}
+
+.button-container {
+    display: flex;
+    align-items: baseline;
+}
+
+#reset-buy-buttons-container {
+    display: none;
+}
+
 .action {
     margin-left: 40px;
     padding: 10px;
@@ -121,6 +134,11 @@ body {
 .card:hover {
     top: 10px;
     transition: top 300ms ease-out;
+}
+
+.card-selected {
+    top: 10px;
+    background-color: #98C1D9;
 }
 
 .card-area-settings-open-button,
