@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="field.css">
 </head>
 <body>
+    <div class="server">
+        <div class="server-header">Имитация сервера</div>
+        <div class="server-button" id="server-new-game">Разадать</div>
+        <div class="server-button" id="server-get-buy">Получить прикуп</div>
+        <div class="server-button" id="server-reset-2-cards">Сбросить 2 карты</div>
+        <div class="server-button" id="server-turn-1card">Походить 1 картой</div>
+    </div>
     <div class="main-area">
         <h2 class="messages-header">Ход игры</h2> 
         <div class="messages-area" id="messages">
@@ -14,30 +21,27 @@
             <div class="message">Большя панда горвоит раз</div>
             <div class="message">Кот пас</div>
             <div class="message">Большая панада выиграла торги</div>
-            <div class="message">В прикупе 6♣ и <span class="red-card-text">♥A</span></div>
+            <div class="message">В прикупе какие-то карты</span></div>
             <div class="message">Панда говорит пас</div>
             <div class="message">Большя панда горвоит раз</div>
             <div class="message">Кот пас</div>
             <div class="message">Большая панада выиграла торги</div>
-            <div class="message">В прикупе 6♣ и <span class="red-card-text">♥A</span></div>
+            <div class="message">В прикупе какие-то карты</span></div>
             <div class="message">Панда говорит пас</div>
             <div class="message">Большя панда горвоит раз</div>
             <div class="message">Кот пас</div>
             <div class="message">Большая панада выиграла торги</div>
-            <div class="message">В прикупе 6♣ и <span class="red-card-text">♥A</span></div>
         </div>
         <div class="buttons-and-tips-container">
             <div class="buttons-and-tips">
-                <h2 class="buttons-and-tips-header">Действия:</h2>
-                <div class="button-container" id="main-game-buttons-container">
-                    <div class="action" id="deal">Раздать карты</div>
-                    <div class="action" id="btn-reset-buy-open-dialog">Сбросить прикуп</div>
-                    <div class="action">Пас</div>
-                    <div class="action">Пол-виста</div>
-                </div>
+                <h2 class="buttons-and-tips-header">Ждем действий</h2>
                 <div class="button-container" id="reset-buy-buttons-container">
                     <div class="tip">Выберите две карты и нажмите</div>
                     <div class="action" id="btn-reset-buy-action">Сбросить</div>
+                </div>
+                <div class="button-container" id="make-move-buttons-container">
+                    <div class="tip">Выберите картe и нажмите</div>
+                    <div class="action action-disable" id="btn-make-move-action">Походить</div>
                 </div>
             </div>
         </div>
@@ -69,6 +73,7 @@
 
             </div>
             <div class="card-area-settings-open-button">*</div>
+            <div class="card-area-settings-refresh">→←</div>
             <div class="card-area-setting">
                 <h2 class="card-area-setting-header">
                     <div class="card-area-setting-header-content">Настройки карт на руке:</div>

@@ -23,6 +23,39 @@ body {
     color: #293241;
 }
 
+.server {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #3D5A80;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    padding-bottom: 10px;
+}
+
+.server-header {
+    padding-left: 15px;
+}
+
+.server-button {
+    padding: 5px 15px;
+    background-color: #98C1D9;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 20px;
+}
+
+.server-button:not(.server-button-disable):hover {
+    background-color: #EE6C4D;
+}
+
+.server-button-disable {
+    background-color: #ffffff;
+    color: #E0FBFC;
+    cursor: default;
+}
+
 .main-area {
     background-color: #ffffff;
     margin-left: auto;
@@ -74,7 +107,8 @@ body {
     align-items: baseline;
 }
 
-#reset-buy-buttons-container {
+#reset-buy-buttons-container,
+#make-move-buttons-container {
     display: none;
 }
 
@@ -88,7 +122,13 @@ body {
     cursor: pointer;
 }
 
-.action:hover {
+.action-disable {
+    cursor: default;
+    background-color: #ffffff;
+    color: #E0FBFC;
+}
+
+.action:not(.action-disable):hover {
     background-color: #EE6C4D;
 }
 
@@ -153,6 +193,20 @@ body {
 
 .card-area-settings-close-button {
     color: #ffffff;
+}
+
+.card-area-settings-refresh {
+    position: absolute;
+    right: 0px;
+    bottom: 0;
+    font-size: 16px;
+    color: #3D5A80;
+    cursor: pointer;
+}
+
+.card-area-settings-refresh:hover {
+    color: #EE6C4D;
+    transition: color 300ms ease-out;
 }
 
 .card-area-setting {
