@@ -48,7 +48,8 @@ const CARDSHOWHTML = {
     414: '<span class="red-card-text">♥A</span>'
 }
 
-const MINSTEPTONEXTSUIT = 92; // 207 - 114 - 1
+const MIN_STEP_TO_NEXT_SUIT = 92; // 207 - 114 - 1
+const MIN_CARD_ID = 107;
 
 let currentUserCards = [];
 let allGameCards = [];
@@ -332,8 +333,8 @@ function showCards() {
         card.id = `${currentUserCards[i]}`;
         elHand.appendChild(card);
         cssLeft += cssLeftStepBtwCards;
-        if (currentUserCards[i + 1] > currentUserCards[i] + MINSTEPTONEXTSUIT ||
-            currentUserCards[i + 1] < currentUserCards[i] - MINSTEPTONEXTSUIT ) {
+        if (currentUserCards[i + 1] > currentUserCards[i] + MIN_STEP_TO_NEXT_SUIT ||
+            currentUserCards[i + 1] < currentUserCards[i] - MIN_STEP_TO_NEXT_SUIT ) {
             cssLeft += cssLeftAdditionalBtwSuits;
         }
     }
@@ -342,12 +343,13 @@ function showCards() {
 elHand.addEventListener("click", function (e) {
     let cardID = +e.target.id;
 
-    if (cardID < 99) {
-        return;
-    }
+    // Так не работает
+    // if (cardID < MIN_CARD_ID) {
+    //     return false;
+    // }
 
     
-    if (gameStatus === "reset-buy") {
+    if (cardID >= MIN_CARD_ID && gameStatus === "reset-buy") {
         if (selectedCards.includes(cardID)) {
             nowSelectedCards--;
             e.target.classList.remove("card-selected");
@@ -365,7 +367,7 @@ elHand.addEventListener("click", function (e) {
         }
     }
 
-    if (gameStatus === "make-move") {
+    if (cardID >= MIN_CARD_ID && gameStatus === "make-move") {
         let delCard = selectedCards.pop();
         if (delCard === cardID) {
             nowSelectedCards--;
@@ -383,62 +385,7 @@ elHand.addEventListener("click", function (e) {
         }
     } 
     
-    // if (cardID > 99 && maxSelectedCards != nowSelectedCards) {
-    //     e.target.classList.add("card-selected");
-    //     nowSelectedCards++;
-    //     selectedCards.push(cardID);
-    //     console.log(selectedCards);
-        
-    // } else if (cardID > 99 && e.target.classList.contains("card-selected")) {
-    //     e.target.classList.remove("card-selected");
-    //     nowSelectedCards--;
-    //     selectedCards.splice(selectedCards.indexOf(cardID),1);
-    //     console.log(selectedCards);
-    // }
-    
-    
-    
-        
-    // btnMakeMove.classList.add("action-disable");
-    
-    // if (delCard != cardID) {
-    //     nowSelectedCards.push(cardID);
-        
-    // }
-
-        
-
-    
-    
-
-    // if (gameStatus === "reset-buy") {
-    
-    // }
-       
-    
-        
-    
-    
-    //     if (gameStatus === "reset-buy" && nowSelectedCards === 2) {
-    //         btnResetBuy.classList.remove("action-disable");
-    //     } else {
-    //         btnResetBuy.classList.add("action-disable");
-    //     }
-
-    
 });
-
-// elHand.addEventListener("dblclick", function (e) {
-//     let cardID = e.target.id;
-
-//     if (gameStatus === "game" && cardID && e.target.classList.contains("card-selected")) {
-//         e.target.style.display = "none";
-//         currentUserCards.splice(currentUserCards.indexOf(cardID),1);
-//         nowSelectedCards--;
-//         selectedCards = [];
-//         showGameMessage(`Кот походил ${CARDSHOWHTML[cardID]}`)
-//     }
-// });
 
 function showGameMessage(messageText) {
     let message = document.createElement("div");
@@ -447,6 +394,3 @@ function showGameMessage(messageText) {
     elMessages.appendChild(message);
     elMessages.lastChild.scrollIntoView();
 }
-
-
-// *** MAIN ***
