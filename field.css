@@ -108,7 +108,8 @@ body {
 }
 
 #reset-buy-buttons-container,
-#make-move-buttons-container {
+#make-move-buttons-container,
+#buy-ok-buttons-container {
     display: none;
 }
 

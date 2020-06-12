@@ -9,10 +9,10 @@ const ALLCARDS = [
     407, 408, 409, 410, 411, 412, 413, 414
 ];
 
-// ♣   &#9827;   &clubs;   Карточный знак масти "трефы" с закрашенным фоном.
-// ♠   &#9824;   &spades;  Карточный знак масти "пики" с закрашенным фоном.
-// ♥   &#9829;   &hearts;  Карточный знак масти "червы" с закрашенным фоном.
-// ♦   &#9830;   &diams;   Карточный знак масти "бубны" с закрашенным фоном.
+// ♣   &#9827;   &clubs;   Карточный знак масти 'трефы' с закрашенным фоном.
+// ♠   &#9824;   &spades;  Карточный знак масти 'пики' с закрашенным фоном.
+// ♥   &#9829;   &hearts;  Карточный знак масти 'червы' с закрашенным фоном.
+// ♦   &#9830;   &diams;   Карточный знак масти 'бубны' с закрашенным фоном.
 const CARDSHOWHTML = {
     107: '♠7',
     108: '♠8',
@@ -60,78 +60,81 @@ let allGameCards = [];
 let maxSelectedCards = 1;
 let nowSelectedCards = 0;
 let selectedCards = [];
-let gameStatus = "wait" // reset-buy, make-move
+let gameStatus = 'wait' // reset-buy, make-move
 
 // *** GAME CONTROLS
 
 
-let elHand = document.getElementById("hand");
-let elMessages = document.getElementById("messages");
-let elCardSetting = document.querySelector(".card-area-setting");
+let elHand = document.getElementById('hand');
+let elMessages = document.getElementById('messages');
+let elCardSetting = document.querySelector('.card-area-setting');
 
-let elButtonAndTipsHeader = document.querySelector(".buttons-and-tips-header");
-let elButtonsContainerResetBuy = document.getElementById("reset-buy-buttons-container");
-let elButtonsContainerMakeMove = document.getElementById("make-move-buttons-container");
+let elButtonAndTipsHeader = document.querySelector('.buttons-and-tips-header');
+let elButtonsContainerResetBuy = document.getElementById('reset-buy-buttons-container');
+let elButtonsContainerMakeMove = document.getElementById('make-move-buttons-container');
+let elButtonsContainerBuyOk = document.getElementById('buy-ok-buttons-container');
 
-let btnResetBuy = document.getElementById("btn-reset-buy-action");
-let btnMakeMove = document.getElementById("btn-make-move-action");
+let btnResetBuy = document.getElementById('btn-reset-buy-action');
+let btnMakeMove = document.getElementById('btn-make-move-action');
+let btnBuyOk = document.getElementById('btn-buy-ok-action');
 
-let controlCardsSettinsOpen = document.querySelector(".card-area-settings-open-button");
-let controlCardsSettinsClose = document.querySelector(".card-area-settings-close-button");
-let controlCardRefresh = document.querySelector(".card-area-settings-refresh");
+let controlCardsSettinsOpen = document.querySelector('.card-area-settings-open-button');
+let controlCardsSettinsClose = document.querySelector('.card-area-settings-close-button');
+let controlCardRefresh = document.querySelector('.card-area-settings-refresh');
 
 
 // *** SERVER IMITATION CONTROLS ***
-let servNewGame = document.getElementById("server-new-game");
-let servGetBuy = document.getElementById("server-get-buy");
-let servReset2Card = document.getElementById("server-reset-2-cards");
-let servTurn1Card = document.getElementById("server-turn-1card");
+let servNewGame = document.getElementById('server-new-game');
+let servGetBuy = document.getElementById('server-get-buy');
+let servTurn1Card = document.getElementById('server-turn-1card');
 
 let isGetBuyAvl = true;
+
+function hideAllButtonContainers() {
+    elButtonsContainerMakeMove.style.display = 'none';
+    elButtonsContainerResetBuy.style.display = 'none';
+    elButtonsContainerBuyOk.style.display = 'none';
+}
 
 servNewGame.onclick = function() {
     showCards(tenRandomCards());
     isGetBuyAvl = true;
-    servGetBuy.classList.remove("server-button-disable");
+    servGetBuy.classList.remove('server-button-disable');
 
     while (elMessages.firstChild) {
         elMessages.removeChild(elMessages.firstChild)
     }
 
-    showGameMessage("Новая разадача");
+    showGameMessage('Новая разадача');
 }
 
 servGetBuy.onclick = function() {
     if (isGetBuyAvl) {
         isGetBuyAvl = false;
-        servGetBuy.classList.add("server-button-disable");
+        
+        servGetBuy.classList.add('server-button-disable');
         currentUserCards.push(allGameCards[30]);
         currentUserCards.push(allGameCards[31]);
         showCards();
+        document.getElementById(allGameCards[30]).classList.add('card-selected');
+        document.getElementById(allGameCards[31]).classList.add('card-selected');
+        
         showGameMessage(`Кот получил прикуп: ${CARDSHOWHTML[allGameCards[30]]} и ${CARDSHOWHTML[allGameCards[31]]}`);
+        hideAllButtonContainers();
+        elButtonAndTipsHeader.innerHTML = 'Пришло в прикупе';
+        elButtonsContainerBuyOk.style.display = 'flex';
     }
-}
-
-servReset2Card.onclick = function() {
-    maxSelectedCards = 2;
-    nowSelectedCards = 0;
-    // тут возможно стоит и уже выбранные  карты сбрасывать (но в реальной жизни это будет невозможный сценарий)
-    elButtonAndTipsHeader.innerHTML = "Сбросить прикуп";
-    elButtonsContainerMakeMove.style.display = "none";
-    elButtonsContainerResetBuy.style.display = "flex";
-    gameStatus = "reset-buy";
-    btnResetBuy.classList.add("action-disable");
 }
 
 servTurn1Card.onclick = function() {
     maxSelectedCards = 1;
     nowSelectedCards = 0;
     // тут возможно стоит и уже выбранные  карты сбрасывать (но в реальной жизни это будет невозможный сценарий)
-    elButtonAndTipsHeader.innerHTML = "Ваш ход:";
-    elButtonsContainerMakeMove.style.display = "flex";
-    elButtonsContainerResetBuy.style.display = "none";
-    gameStatus = "make-move";
-    btnMakeMove.classList.add("action-disable");
+    elButtonAndTipsHeader.innerHTML = 'Ваш ход:';
+    hideAllButtonContainers();
+    elButtonsContainerMakeMove.style.display = 'flex';
+    gameStatus = 'make-move';
+    btnMakeMove.classList.add('action-disable');
 }
 
 
@@ -140,18 +143,18 @@ btnResetBuy.onclick = function() {
         maxSelectedCards = 1;
         nowSelectedCards = 0;
         // тут возможно стоит и уже выбранные  карты сбрасывать (но в реальной жизни это будет невозможный сценарий)
-        elButtonAndTipsHeader.innerHTML = "Действия";
-        elButtonsContainerResetBuy.style.display = "none";
-        gameStatus = "wait";
+        elButtonAndTipsHeader.innerHTML = 'Действия';
+        elButtonsContainerResetBuy.style.display = 'none';
+        gameStatus = 'wait';
 
-        let message = document.createElement("div");
-        message.classList.add("message");
+        let message = document.createElement('div');
+        message.classList.add('message');
         message.innerHTML = `Кот сбросил ${CARDSHOWHTML[selectedCards[0]]} и ${CARDSHOWHTML[selectedCards[1]]}`;
         elMessages.appendChild(message);
         elMessages.lastChild.scrollIntoView();
 
         for (let i = 0; i < 2; i++) {
-            document.getElementById(selectedCards[i]).style.display = "none";
+            document.getElementById(selectedCards[i]).style.display = 'none';
             currentUserCards.splice(currentUserCards.indexOf(selectedCards[i]),1);
         }
 
@@ -162,34 +165,47 @@ btnResetBuy.onclick = function() {
 
     
     } else {
-        alert("Карт должно быть две");
+        alert('Карт должно быть две');
     }
 }
 
 
 btnMakeMove.onclick = function() {
     if (nowSelectedCards === 1) {
-        elButtonAndTipsHeader.innerHTML = "Действия";
-        elButtonsContainerMakeMove.style.display = "none";
-        gameStatus = "wait";
+        elButtonAndTipsHeader.innerHTML = 'Действия';
+        elButtonsContainerMakeMove.style.display = 'none';
+        gameStatus = 'wait';
 
-        document.getElementById(selectedCards[0]).style.display = "none";
+        document.getElementById(selectedCards[0]).style.display = 'none';
         currentUserCards.splice(currentUserCards.indexOf(selectedCards[0]),1);
 
         showGameMessage(`Кот походил ${CARDSHOWHTML[selectedCards[0]]}`);
 
         nowSelectedCards = 0;
         selectedCards = [];
-        btnMakeMove.classList.remove("action-disable");
+        btnMakeMove.classList.remove('action-disable');
     }
 }
 
+btnBuyOk.onclick = function() {
+    document.getElementById(allGameCards[30]).classList.remove('card-selected');
+    document.getElementById(allGameCards[31]).classList.remove('card-selected');
+    maxSelectedCards = 2;
+    nowSelectedCards = 0;
+    // тут возможно стоит и уже выбранные  карты сбрасывать (но в реальной жизни это будет невозможный сценарий)
+    elButtonAndTipsHeader.innerHTML = 'Сбросить прикуп';
+    hideAllButtonContainers();
+    elButtonsContainerResetBuy.style.display = 'flex';
+    gameStatus = 'reset-buy';
+    btnResetBuy.classList.add('action-disable');
+}
+
 controlCardsSettinsOpen.onclick = function() {
-    elCardSetting.style.display = "block";
+    elCardSetting.style.display = 'block';
 }
 
 controlCardsSettinsClose.onclick = function() {
-    elCardSetting.style.display = "none";
+    elCardSetting.style.display = 'none';
     showCards(currentUserCards);
 }
 
@@ -199,12 +215,12 @@ controlCardsSettinsClose.onclick = function() {
 // *** CARD SETTING AREA ***
 
 // radio-buttons for card-area-setting
-let radioSuitOrderDirect = document.getElementById("suit-order-direct");
-let radioSuitOrderAlternate = document.getElementById("suit-order-alternate");
-let radioCardOrderASC = document.getElementById("card-order-asc");
-let radioCardOrderDESC = document.getElementById("card-order-desc");
-let radioSpaceBetweenSuitYes = document.getElementById("card-space-yes");
-let radioSpaceBetweenSuitNo = document.getElementById("card-space-no");
+let radioSuitOrderDirect = document.getElementById('suit-order-direct');
+let radioSuitOrderAlternate = document.getElementById('suit-order-alternate');
+let radioCardOrderASC = document.getElementById('card-order-asc');
+let radioCardOrderDESC = document.getElementById('card-order-desc');
+let radioSpaceBetweenSuitYes = document.getElementById('card-space-yes');
+let radioSpaceBetweenSuitNo = document.getElementById('card-space-no');
 
 // vars for card-area-setting
 let isSuitOrderAlternate = true;
@@ -326,10 +342,10 @@ function showCards() {
     let cssLeftAdditionalBtwSuits = isSpaceBetweenSuit ? 80 : 0;
     
     for (let i = 0; i < currentUserCards.length; i++) {
-        let card = document.createElement("div");
-        card.classList.add("card");
+        let card = document.createElement('div');
+        card.classList.add('card');
         card.innerHTML = `${CARDSHOWHTML[currentUserCards[i]]}`;
-        card.style.left = cssLeft + "px";
+        card.style.left = cssLeft + 'px';
         card.id = `${currentUserCards[i]}`;
         elHand.appendChild(card);
         cssLeft += cssLeftStepBtwCards;
@@ -340,7 +356,7 @@ function showCards() {
     }
 }
 
-elHand.addEventListener("click", function (e) {
+elHand.addEventListener('click', function (e) {
     let cardID = +e.target.id;
 
     // Так не работает
@@ -349,38 +365,38 @@ elHand.addEventListener("click", function (e) {
     // }
 
     
-    if (cardID >= MIN_CARD_ID && gameStatus === "reset-buy") {
+    if (cardID >= MIN_CARD_ID && gameStatus === 'reset-buy') {
         if (selectedCards.includes(cardID)) {
             nowSelectedCards--;
-            e.target.classList.remove("card-selected");
+            e.target.classList.remove('card-selected');
             selectedCards.splice(selectedCards.indexOf(cardID),1);
         } else if (nowSelectedCards !== 2) {
             nowSelectedCards++;
-            e.target.classList.add("card-selected");
+            e.target.classList.add('card-selected');
             selectedCards.push(cardID);
         }
 
         if (nowSelectedCards === 2) {
-            btnResetBuy.classList.remove("action-disable");
+            btnResetBuy.classList.remove('action-disable');
         } else {
-            btnResetBuy.classList.add("action-disable");
+            btnResetBuy.classList.add('action-disable');
         }
     }
 
-    if (cardID >= MIN_CARD_ID && gameStatus === "make-move") {
+    if (cardID >= MIN_CARD_ID && gameStatus === 'make-move') {
         let delCard = selectedCards.pop();
         if (delCard === cardID) {
             nowSelectedCards--;
-            e.target.classList.remove("card-selected");
-            btnMakeMove.classList.add("action-disable");
+            e.target.classList.remove('card-selected');
+            btnMakeMove.classList.add('action-disable');
         } else if (delCard) {
-            e.target.classList.add("card-selected");
-            document.getElementById(delCard).classList.remove("card-selected");
+            e.target.classList.add('card-selected');
+            document.getElementById(delCard).classList.remove('card-selected');
             selectedCards.push(cardID);
         } else {
             nowSelectedCards++;
-            e.target.classList.add("card-selected");
-            btnMakeMove.classList.remove("action-disable");
+            e.target.classList.add('card-selected');
+            btnMakeMove.classList.remove('action-disable');
             selectedCards.push(cardID);
         }
     } 
@@ -388,8 +404,8 @@ elHand.addEventListener("click", function (e) {
 });
 
 function showGameMessage(messageText) {
-    let message = document.createElement("div");
-    message.classList.add("message");
+    let message = document.createElement('div');
+    message.classList.add('message');
     message.innerHTML = messageText;
     elMessages.appendChild(message);
     elMessages.lastChild.scrollIntoView();
